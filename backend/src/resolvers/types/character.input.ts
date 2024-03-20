@@ -7,8 +7,8 @@ export class CharacterInput implements Partial<Character> {
   name!: string;
 
   @Field({ nullable: true })
-  description!: string;
+  description?: string;
 
   @Field({ nullable: true })
-  avatarUrl!: string;
+  avatarUrl?: string;
 }

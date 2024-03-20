@@ -7,6 +7,7 @@ import { expressMiddleware } from "@apollo/server/express4";
 import { GraphQLSchema } from "graphql";
 import { dataSource } from "./datasource";
 import { CharacterResolver } from "./resolvers/CharacterResolver";
+import { EventResolver } from "./resolvers/EventResolver";
 
 const port = 5000;
 const app = express();
@@ -18,7 +19,7 @@ interface MyContext {
 
 const startApollo = async () => {
   schema = await buildSchema({
-    resolvers: [CharacterResolver],
+    resolvers: [CharacterResolver, EventResolver],
   });
   apolloServer = new ApolloServer<MyContext>({ schema });
   await apolloServer.start();

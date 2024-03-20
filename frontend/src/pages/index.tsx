@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { useQuery, gql } from "@apollo/client";
 import { CharacterInput } from "../../../backend/src/resolvers/types";
+import { CharacterCard } from "@/components/CharacterCard";
 
 const GET_CHARACTERS = gql`
   query Characters {
@@ -28,9 +29,7 @@ export default function Home() {
       <ul>
         {data.characters.map(
           ({ name, description }: CharacterInput, i: number) => (
-            <li key={i}>
-              {name} ({description})
-            </li>
+            <CharacterCard key={i} name={name} description={description} />
           )
         )}
       </ul>
