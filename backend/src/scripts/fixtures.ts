@@ -1,42 +1,48 @@
-import { Recipe } from "../entities/Recipe";
+import { Character } from "../entities/Character";
 import { dataSource } from "../datasource";
 
-const recipesData = [
+const charactersData = [
   {
-    title: "Spaghetti Carbonara",
-    description: "Classic Italian pasta dish with bacon, eggs, and cheese.",
+    name: "Mario",
+    description: "Plumber from the Mushroom Kingdom.",
+    avatarUrl: "https://example.com/mario.png",
   },
   {
-    title: "Chicken Alfredo",
-    description: "Creamy pasta dish with grilled chicken and Parmesan cheese.",
+    name: "Luigi",
+    description: "Mario's brother and sidekick.",
+    avatarUrl: "https://example.com/luigi.png",
   },
   {
-    title: "Vegetable Stir-Fry",
-    description: "Healthy stir-fry with assorted vegetables and tofu.",
+    name: "Princess Peach",
+    description: "Ruler of the Mushroom Kingdom.",
+    avatarUrl: "https://example.com/peach.png",
   },
   {
-    title: "Homemade Pizza",
-    description: "Delicious pizza made from scratch with fresh ingredients.",
+    name: "Bowser",
+    description: "Villainous king of the Koopas.",
+    avatarUrl: "https://example.com/bowser.png",
   },
   {
-    title: "Chocolate Chip Cookies",
-    description: "Classic homemade cookies with gooey chocolate chips.",
+    name: "Yoshi",
+    description: "Friendly dinosaur companion.",
+    avatarUrl: "https://example.com/yoshi.png",
   },
 ];
+
 async function generateAndSaveFixtures() {
   try {
     await dataSource.initialize();
-    const savedRecipes = await Promise.all(
-      recipesData.map(async (recipeData) => {
-        const recipe = new Recipe();
-        recipe.title = recipeData.title;
-        recipe.description = recipeData.description;
-        return await recipe.save();
+    const savedCharacters = await Promise.all(
+      charactersData.map(async (characterData) => {
+        const character = new Character();
+        character.name = characterData.name;
+        character.description = characterData.description;
+        return await character.save();
       })
     );
-    console.log("Recettes enregistrées avec succès:", savedRecipes.length);
+    console.log("Personnages enregistrés avec succès:", savedCharacters.length);
   } catch (error) {
-    console.error("Erreur lors de l'enregistrement des recettes:", error);
+    console.error("Erreur lors de l'enregistrement des fixtures:", error);
   } finally {
     await dataSource.destroy();
   }

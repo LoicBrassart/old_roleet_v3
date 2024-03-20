@@ -1,17 +1,17 @@
 import Head from "next/head";
 import { useQuery, gql } from "@apollo/client";
 
-const GET_RECIPES = gql`
-  query Recipes {
-    recipes {
-      title
+const GET_CHARACTERS = gql`
+  query Characters {
+    characters {
+      name
       description
     }
   }
 `;
 
 export default function Home() {
-  const { loading, error, data } = useQuery(GET_RECIPES);
+  const { loading, error, data } = useQuery(GET_CHARACTERS);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error</p>;
@@ -25,9 +25,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ul>
-        {data.recipes.map(({ title, description }, i) => (
+        {data.characters.map(({ name, description }, i) => (
           <li key={i}>
-            {title} ({description})
+            {name} ({description})
           </li>
         ))}
       </ul>

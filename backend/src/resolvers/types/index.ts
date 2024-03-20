@@ -1,1 +1,1 @@
-export * from "./recipe.input";
+export * from "./character.input";

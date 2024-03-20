@@ -3,16 +3,20 @@ import { Column, Entity, PrimaryGeneratedColumn, BaseEntity } from "typeorm";
 
 @Entity()
 @ObjectType()
-export class Recipe extends BaseEntity {
+export class Character extends BaseEntity {
   @Field((_type) => ID)
   @PrimaryGeneratedColumn()
   readonly id!: number;
 
   @Field()
   @Column()
-  title!: string;
+  name!: string;
 
   @Field({ nullable: true })
   @Column({ nullable: true })
   description?: string;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  avatarUrl?: string;
 }
