@@ -4,7 +4,6 @@ import cors from "cors";
 import { ApolloServer } from "@apollo/server";
 import { buildSchema } from "type-graphql";
 import { expressMiddleware } from "@apollo/server/express4";
-import { GraphQLSchema } from "graphql";
 import { dataSource } from "./datasource";
 import { CharacterResolver } from "./resolvers/CharacterResolver";
 import { EventResolver } from "./resolvers/EventResolver";
@@ -12,17 +11,15 @@ import { ScenarioResolver } from "./resolvers/ScenarioResolver";
 
 const port = 5000;
 const app = express();
-let schema: GraphQLSchema;
-let apolloServer: ApolloServer<MyContext>;
-interface MyContext {
-  token?: string;
-}
 
 const startApollo = async () => {
-  schema = await buildSchema({
+  interface MyContext {
+    token?: string;
+  }
+  const schema = await buildSchema({
     resolvers: [CharacterResolver, EventResolver, ScenarioResolver],
   });
-  apolloServer = new ApolloServer<MyContext>({ schema });
+  const apolloServer = new ApolloServer<MyContext>({ schema });
   await apolloServer.start();
   app.use(
     "/graphql",

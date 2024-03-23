@@ -1,5 +1,12 @@
 import { Field, ID, ObjectType } from "type-graphql";
-import { Column, Entity, PrimaryGeneratedColumn, BaseEntity } from "typeorm";
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  BaseEntity,
+  ManyToMany,
+} from "typeorm";
+import { Scenario } from "./Scenario";
 
 @Entity()
 @ObjectType()
@@ -19,4 +26,11 @@ export class Character extends BaseEntity {
   @Field({ nullable: true })
   @Column({ nullable: true })
   avatarUrl?: string;
+
+  @Field((_type) => [Scenario])
+  @ManyToMany((_type) => Scenario, (scenario) => scenario.npcs, {
+    lazy: true,
+    cascade: ["insert"],
+  })
+  scenarios!: Scenario[];
 }
