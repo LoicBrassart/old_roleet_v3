@@ -1,13 +1,15 @@
 import Head from "next/head";
 import { useQuery, gql } from "@apollo/client";
-import { CharacterInput } from "../../../backend/src/resolvers/types";
-import { CharacterCard } from "@/components/CharacterCard";
+// import { CharacterInput } from "../../../backend/src/resolvers/types";
+// import { CharacterCard } from "@/components/CharacterCard";
+import { ScenarioCard } from "@/components/ScenarioCard";
 
 const GET_CHARACTERS = gql`
   query Characters {
     characters {
       name
       description
+      avatarUrl
     }
   }
 `;
@@ -26,13 +28,14 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ul>
+      {/* <ul className="flex flex-wrap">
         {data.characters.map(
-          ({ name, description }: CharacterInput, i: number) => (
-            <CharacterCard key={i} name={name} description={description} />
+          ({ name, description, avatarUrl }: CharacterInput, i: number) => (
+            <CharacterCard key={i} {...{ name, description, avatarUrl }} />
           )
         )}
-      </ul>
+      </ul> */}
+      <ScenarioCard title="Camp Gobelin" />
     </>
   );
 }
