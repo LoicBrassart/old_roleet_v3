@@ -8,6 +8,8 @@ import { dataSource } from "./datasource";
 import { CharacterResolver } from "./resolvers/CharacterResolver";
 import { EventResolver } from "./resolvers/EventResolver";
 import { ScenarioResolver } from "./resolvers/ScenarioResolver";
+import { MapResolver } from "./resolvers/MapResolver";
+import { PointOfInterestResolver } from "./resolvers/PointOfInterestResolver";
 
 const port = 5000;
 const app = express();
@@ -17,7 +19,13 @@ const startApollo = async () => {
     token?: string;
   }
   const schema = await buildSchema({
-    resolvers: [CharacterResolver, EventResolver, ScenarioResolver],
+    resolvers: [
+      CharacterResolver,
+      EventResolver,
+      ScenarioResolver,
+      MapResolver,
+      PointOfInterestResolver,
+    ],
   });
   const apolloServer = new ApolloServer<MyContext>({ schema });
   await apolloServer.start();
