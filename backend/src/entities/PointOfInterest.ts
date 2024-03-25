@@ -4,7 +4,6 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   BaseEntity,
-  JoinTable,
   ManyToOne,
 } from "typeorm";
 import { Map } from "./Map";
@@ -29,7 +28,6 @@ export class PointOfInterest extends BaseEntity {
   description?: string;
 
   @Field((_type) => Map)
-  @JoinTable()
   @ManyToOne((_type) => Map, (map) => map.pointsOfInterest)
   map!: Map;
 }

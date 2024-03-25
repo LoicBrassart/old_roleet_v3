@@ -29,7 +29,6 @@ export class Map extends BaseEntity {
   pictureUrl!: string;
 
   @Field((_type) => [PointOfInterest])
-  @JoinTable()
   @OneToMany((_type) => PointOfInterest, (poi) => poi.map, {
     lazy: true,
     cascade: true,

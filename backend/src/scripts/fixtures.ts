@@ -212,7 +212,7 @@ async function generateAndSaveFixtures() {
         poi.code = poiData.title;
         poi.description = poiData.title;
         poi.map = savedMaps[0];
-        return await poi.save({});
+        return await poi.save();
       })
     );
     console.log("PoI enregistrées avec succès:", savedPoI.length);
