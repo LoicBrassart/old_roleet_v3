@@ -163,7 +163,7 @@ async function generateAndSaveFixtures() {
         character.name = characterData.name;
         character.description = characterData.description;
         character.avatarUrl = characterData.avatarUrl;
-        return await character.save();
+        return character.save();
       })
     );
     console.log("Personnages enregistrés avec succès:", savedCharacters.length);
@@ -176,7 +176,7 @@ async function generateAndSaveFixtures() {
         event.timestampStart = eventData.timestampStart;
         event.timestampEnd = eventData.timestampEnd;
         event.location = eventData.location;
-        return await event.save();
+        return event.save();
       })
     );
     console.log("Evenements enregistrés avec succès:", savedEvents.length);
@@ -189,7 +189,7 @@ async function generateAndSaveFixtures() {
         scenario.teaser = scenarioData.teaser;
         scenario.credits = scenarioData.credits;
         scenario.fullStory = scenarioData.fullStory;
-        return await scenario.save();
+        return scenario.save();
       })
     );
     console.log("Scenarios enregistrés avec succès:", savedScenarios.length);
@@ -200,7 +200,7 @@ async function generateAndSaveFixtures() {
         map.title = mapData.title;
         map.pictureUrl = mapData.pictureUrl;
         map.description = mapData.description;
-        return await map.save();
+        return map.save();
       })
     );
     console.log("Maps enregistrées avec succès:", savedMaps.length);
@@ -209,10 +209,12 @@ async function generateAndSaveFixtures() {
       poisData.map(async (poiData) => {
         const poi = new PointOfInterest();
         poi.title = poiData.title;
-        poi.code = poiData.title;
-        poi.description = poiData.title;
+        poi.code = poiData.code;
+        poi.description = poiData.description;
         poi.map = savedMaps[0];
-        return await poi.save();
+        console.log(poi);
+
+        return poi.save();
       })
     );
     console.log("PoI enregistrées avec succès:", savedPoI.length);

@@ -19,7 +19,7 @@ export class PointOfInterestResolver {
 
   @Query((_returns) => [PointOfInterest])
   pois(): Promise<PointOfInterest[]> {
-    return this.poiRepository.find();
+    return this.poiRepository.find({ relations: { map: true } });
   }
 
   @Mutation((_returns) => PointOfInterest)
