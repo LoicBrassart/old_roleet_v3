@@ -2,27 +2,33 @@ import { MapDetail } from "@/components/MapDetail";
 import { gql, useQuery } from "@apollo/client";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { Map } from "../../../../backend/src/entities/Map";
 
-const GET_FIRST_MAP = gql`
-  query Map($mapId: Int!) {
-    map(mapId: $mapId) {
+const GET_SCENARIO = gql`
+  query Scenario($scenarioId: Int!) {
+    scenario(scenarioId: $scenarioId) {
       id
       title
-      pictureUrl
-      description
-      pointsOfInterest {
-        id
-        code
+      teaser
+      bannerUrl
+      fullStory
+      maps {
         title
         description
+        pictureUrl
+        pointsOfInterest {
+          code
+          title
+        }
       }
     }
   }
 `;
 export default function ScenarioPage() {
   const router = useRouter();
-  const { loading, error, data } = useQuery(GET_FIRST_MAP, {
-    variables: { mapId: Number(router.query.id) },
+
+  const { loading, error, data } = useQuery(GET_SCENARIO, {
+    variables: { scenarioId: Number(router.query.id) },
   });
 
   if (loading) return <p>Loading...</p>;
@@ -37,7 +43,9 @@ export default function ScenarioPage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <MapDetail {...data.map} />
+      {data.scenario.maps.map((map: Map) => (
+        <MapDetail {...map} key={map.id} />
+      ))}
     </>
   );
 }

@@ -14,7 +14,7 @@ export class MapResolver {
 
   @Query((_returns) => Map, { nullable: true })
   map(@Arg("mapId", (_type) => Int) mapId: number) {
-    return this.mapRepository.findOneBy({ id: mapId });
+    return this.mapRepository.findOne({ where: { id: mapId } });
   }
 
   @Query((_returns) => [Map])

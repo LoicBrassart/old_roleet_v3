@@ -25,7 +25,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ul>
-        <Link href="/scenarios/1">Détail d&apos;un Scenario</Link>
+        <Link href="/scenarios/4">Détail d&apos;un Scenario</Link>
       </ul>
 
       {/* <ul className="flex flex-wrap">

@@ -14,7 +14,10 @@ export class ScenarioResolver {
 
   @Query((_returns) => Scenario, { nullable: true })
   scenario(@Arg("scenarioId", (_type) => Int) scenarioId: number) {
-    return this.scenarioRepository.findOneBy({ id: scenarioId });
+    return this.scenarioRepository.findOne({
+      where: { id: scenarioId },
+      relations: { maps: { pointsOfInterest: true } },
+    });
   }
 
   @Query((_returns) => [Scenario])
