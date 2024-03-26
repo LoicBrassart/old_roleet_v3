@@ -403,6 +403,7 @@ async function generateAndSaveFixtures() {
         map.title = mapData.title;
         map.pictureUrl = mapData.pictureUrl;
         map.description = mapData.description;
+        map.scenario = savedScenarios[0];
         return map.save();
       })
     );

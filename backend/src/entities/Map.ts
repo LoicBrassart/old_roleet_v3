@@ -6,8 +6,10 @@ import {
   BaseEntity,
   OneToMany,
   JoinTable,
+  ManyToOne,
 } from "typeorm";
 import { PointOfInterest } from "./PointOfInterest";
+import { Scenario } from "./Scenario";
 
 @Entity()
 @ObjectType()
@@ -30,8 +32,11 @@ export class Map extends BaseEntity {
 
   @Field((_type) => [PointOfInterest])
   @OneToMany((_type) => PointOfInterest, (poi) => poi.map, {
-    eager: true,
     cascade: true,
   })
   pointsOfInterest!: PointOfInterest[];
+
+  @Field((_type) => Scenario)
+  @ManyToOne((_type) => Scenario, (scenario) => scenario.maps)
+  scenario!: Scenario;
 }

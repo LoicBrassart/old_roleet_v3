@@ -9,6 +9,7 @@ import {
   JoinTable,
 } from "typeorm";
 import { Character } from "./Character";
+import { Map } from "./Map";
 
 @Entity()
 @ObjectType()
@@ -44,4 +45,10 @@ export class Scenario extends BaseEntity {
     cascade: ["insert"],
   })
   npcs!: Character[];
+
+  @Field((_type) => [Map])
+  @OneToMany((_type) => Map, (map) => map.scenario, {
+    cascade: true,
+  })
+  maps!: Map[];
 }

@@ -19,7 +19,7 @@ export class MapResolver {
 
   @Query((_returns) => [Map])
   maps(): Promise<Map[]> {
-    return this.mapRepository.find();
+    return this.mapRepository.find({ relations: { scenario: true } });
   }
 
   @Mutation((_returns) => Map)

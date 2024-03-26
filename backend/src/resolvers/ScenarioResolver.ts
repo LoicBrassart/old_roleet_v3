@@ -19,7 +19,9 @@ export class ScenarioResolver {
 
   @Query((_returns) => [Scenario])
   scenarios(): Promise<Scenario[]> {
-    return this.scenarioRepository.find();
+    return this.scenarioRepository.find({
+      relations: { maps: { pointsOfInterest: true } },
+    });
   }
 
   @Mutation((_returns) => Scenario)

@@ -1,7 +1,8 @@
 import { Field, InputType } from "type-graphql";
 import { Map } from "../../entities/Map";
 import { PointOfInterest } from "../../entities/PointOfInterest";
-import { PointOfInterestInput } from ".";
+import { PointOfInterestInput, ScenarioInput } from ".";
+import { Scenario } from "../../entities/Scenario";
 
 @InputType()
 export class MapInput implements Partial<Map> {
@@ -16,4 +17,7 @@ export class MapInput implements Partial<Map> {
 
   @Field((_type) => [PointOfInterestInput])
   pointsOfInterest!: PointOfInterest[];
+
+  @Field((_type) => ScenarioInput)
+  scenario!: Scenario;
 }
