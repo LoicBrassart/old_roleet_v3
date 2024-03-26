@@ -29,7 +29,6 @@ export class Character extends BaseEntity {
 
   @Field((_type) => [Scenario])
   @ManyToMany((_type) => Scenario, (scenario) => scenario.npcs, {
-    lazy: true,
     cascade: ["insert"],
   })
   scenarios!: Scenario[];

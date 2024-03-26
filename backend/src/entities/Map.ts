@@ -30,7 +30,7 @@ export class Map extends BaseEntity {
 
   @Field((_type) => [PointOfInterest])
   @OneToMany((_type) => PointOfInterest, (poi) => poi.map, {
-    lazy: true,
+    eager: true,
     cascade: true,
   })
   pointsOfInterest!: PointOfInterest[];
