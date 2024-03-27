@@ -3,22 +3,25 @@ import { gql, useQuery } from "@apollo/client";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { Map } from "../../../../backend/src/entities/Map";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const GET_SCENARIO = gql`
   query Scenario($scenarioId: Int!) {
     scenario(scenarioId: $scenarioId) {
-      id
       title
       teaser
       bannerUrl
       fullStory
       maps {
+        id
         title
         description
         pictureUrl
         pointsOfInterest {
+          id
           code
           title
+          description
         }
       }
     }
@@ -43,9 +46,23 @@ export default function ScenarioPage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {data.scenario.maps.map((map: Map) => (
-        <MapDetail {...map} key={map.id} />
-      ))}
+      <div>
+        <h1>{data.scenario.title}</h1>
+        <Tabs defaultValue="story" className="w-3/4 m-auto">
+          <TabsList>
+            <TabsTrigger value="story">Story</TabsTrigger>
+            <TabsTrigger value="maps">Maps</TabsTrigger>
+          </TabsList>
+          <TabsContent value="story">
+            <p>{data.scenario.fullStory}</p>
+          </TabsContent>
+          <TabsContent value="maps">
+            {data.scenario.maps.map((map: Map) => (
+              <MapDetail {...map} key={map.id} />
+            ))}
+          </TabsContent>
+        </Tabs>
+      </div>
     </>
   );
 }
