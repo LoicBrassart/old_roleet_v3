@@ -25,7 +25,12 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ul>
-        <Link href="/scenarios/4">Détail d&apos;un Scenario</Link>
+        <li>
+          <Link href="/scenarios/4">Détail d&apos;un Scenario</Link>
+        </li>
+        <li>
+          <Link href="/scenarios/new">Création d&apos;un Scenario</Link>
+        </li>
       </ul>
 
       {/* <ul className="flex flex-wrap">
