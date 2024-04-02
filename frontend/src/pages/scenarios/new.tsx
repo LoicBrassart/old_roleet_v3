@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -15,81 +14,43 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { BsQuestionOctagonFill } from "react-icons/bs";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Textarea } from "@/components/ui/textarea";
 
-const formSchema = z.object({
+const mapSchema = z.object({});
+
+const scenarioSchema = z.object({
   title: z.string().min(2).max(50),
   teaser: z.string().min(2).max(50),
   fullStory: z.string().min(2).max(50),
   bannerUrl: z.string().min(2).max(50),
   credits: z.string().min(2).max(50),
-  npcs: z.array(z.string()),
-  maps: z.array(z.string()),
+  isPublic: z.boolean(),
+  npcs: z.array(z.string()).optional(),
+  maps: z.array(mapSchema).optional(),
 });
-type Field = {
-  name: "title" | "teaser" | "bannerUrl" | "credits" | "fullStory";
-  label: string;
-  placeholder?: string;
-  explanation: string;
-  isPublic: boolean;
-};
-const fields: Field[] = [
-  {
-    name: "title",
-    label: "Titre",
-    placeholder: "Le Camp Gobelin",
-    explanation: "Le titre du scenario",
-    isPublic: true,
-  },
-  {
-    name: "teaser",
-    label: "Teaser",
-    placeholder:
-      "Des enfants ont disparu dans un petit village forestier, aidez à les retrouver !",
-    explanation:
-      "Une courte description pour donner aux éventuels lecteurs l'envie de découvrir ce scénario. Attention à ne pas trop spoiler l'histoire !",
-    isPublic: true,
-  },
-  {
-    name: "bannerUrl",
-    label: "Illustration",
-    placeholder: undefined,
-    explanation: "Attention au spoil accidentel sur l'illustration !",
-    isPublic: true,
-  },
-  {
-    name: "credits",
-    label: "Credits",
-    placeholder: "Une illustre inconnu",
-    explanation:
-      "Merci de lister l'auteur et lesite de provenance du scenario s'il est connu",
-    isPublic: true,
-  },
-  {
-    name: "fullStory",
-    label: "L'histoire",
-    placeholder:
-      "Des gobelins kidnappent des enfants pour en faire de la main d'oeuvre à vil coût.",
-    explanation:
-      "C'est ici que devrait se trouver l'histoire détaillée. Ce champ ne sera *pas* visible pour les visiteurs, pas de risque de spoil !",
-    isPublic: false,
-  },
-];
 
 export default function ScenarioForm() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof scenarioSchema>>({
+    resolver: zodResolver(scenarioSchema),
     defaultValues: {
       title: "",
       teaser: "",
       fullStory: "",
       bannerUrl: "",
       credits: "",
+      isPublic: true,
       npcs: [],
       maps: [],
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: z.infer<typeof scenarioSchema>) {
     console.log(values);
   }
 
@@ -104,27 +65,147 @@ export default function ScenarioForm() {
       <h1>Creation d&apos;un Scenario</h1>
       <div className="w-3/4 m-auto border p-3">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            {fields.map((elt) => (
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <TooltipProvider>
               <FormField
-                key={elt.name}
+                key="title"
                 control={form.control}
-                name={elt.name}
+                name="title"
+                render={({ field }) => {
+                  return (
+                    <FormItem>
+                      <FormLabel>
+                        Titre
+                        <Tooltip>
+                          <TooltipTrigger className="m-1">
+                            <BsQuestionOctagonFill />
+                          </TooltipTrigger>
+                          <TooltipContent>Le titre du scenario</TooltipContent>
+                        </Tooltip>
+                        <FormControl>
+                          <Input placeholder="Le Camp Gobelin" {...field} />
+                        </FormControl>
+                      </FormLabel>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
+              />
+
+              <FormField
+                key="teaser"
+                control={form.control}
+                name="teaser"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{elt.label}</FormLabel>
-                    <FormControl>
-                      <Input placeholder={elt.placeholder} {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      <BsQuestionOctagonFill />
-                      {elt.explanation}
-                    </FormDescription>
+                    <FormLabel>
+                      Teaser
+                      <Tooltip>
+                        <TooltipTrigger className="m-1">
+                          <BsQuestionOctagonFill />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          Une courte description pour donner aux éventuels
+                          lecteurs l&apos;envie de découvrir ce scénario.
+                          Attention à ne pas trop spoiler l&apos;histoire !
+                        </TooltipContent>
+                      </Tooltip>
+                      <FormControl>
+                        <Input
+                          placeholder="Des enfants ont disparu dans un petit village forestier, aidez à les retrouver !"
+                          {...field}
+                        />
+                      </FormControl>
+                    </FormLabel>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-            ))}
+
+              <FormField
+                key="illustration"
+                control={form.control}
+                name="bannerUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Illustration
+                      <Tooltip>
+                        <TooltipTrigger className="m-1">
+                          <BsQuestionOctagonFill />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          Attention au spoil accidentel sur l&apos;illustration
+                          !
+                        </TooltipContent>
+                      </Tooltip>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                    </FormLabel>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                key="credits"
+                control={form.control}
+                name="credits"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Credits
+                      <Tooltip>
+                        <TooltipTrigger className="m-1">
+                          <BsQuestionOctagonFill />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          Merci de lister l&apos;auteur et lesite de provenance
+                          du scenario s&apos;il est connu
+                        </TooltipContent>
+                      </Tooltip>
+                      <FormControl>
+                        <Input placeholder="Une illustre inconnue" {...field} />
+                      </FormControl>
+                    </FormLabel>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                key="fullStory"
+                control={form.control}
+                name="fullStory"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      L&apos;histoire
+                      <Tooltip>
+                        <TooltipTrigger className="m-1">
+                          <BsQuestionOctagonFill />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          C&apos;est ici que devrait se trouver l&apos;histoire
+                          détaillée. Ce champ ne sera *pas* visible pour les
+                          visiteurs, pas de risque de spoil !
+                        </TooltipContent>
+                      </Tooltip>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Des gobelins kidnappent des enfants pour en faire de la main d'oeuvre à vil coût."
+                          {...field}
+                        />
+                      </FormControl>
+                    </FormLabel>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </TooltipProvider>
             <Button type="submit">Enregistrer</Button>
           </form>
         </Form>
