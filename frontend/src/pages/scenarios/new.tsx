@@ -25,8 +25,14 @@ const formSchema = z.object({
   npcs: z.array(z.string()),
   maps: z.array(z.string()),
 });
-
-const fields = [
+type Field = {
+  name: "title" | "teaser" | "bannerUrl" | "credits" | "fullStory";
+  label: string;
+  placeholder?: string;
+  explanation: string;
+  isPublic: boolean;
+};
+const fields: Field[] = [
   {
     name: "title",
     label: "Titre",
