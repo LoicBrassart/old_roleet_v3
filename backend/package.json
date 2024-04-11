@@ -10,7 +10,8 @@
     "migration:up": "npm run typeorm migration:run",
     "migration:down": "npm run typeorm migration:revert",
     "migration:create": "typeorm-ts-node-commonjs migration:create",
-    "fixtures:load": "ts-node-dev ./src/scripts/fixtures.ts"
+    "fixtures:load": "ts-node-dev ./src/scripts/fixtures.ts",
+    "db:reset": "rm -rf data/* && npm run migration:generate && npm run migration:up && npm run fixtures:load"
   },
   "author": "",
   "license": "ISC",
