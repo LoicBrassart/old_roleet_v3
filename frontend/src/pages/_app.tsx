@@ -6,7 +6,7 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 dotenv.config();
 
 const client = new ApolloClient({
-  uri: process.env.BACKEND_URL,
+  uri: process.env.NEXT_PUBLIC_BACKEND_URL,
   cache: new InMemoryCache(),
 });
 

@@ -10,15 +10,14 @@ const GET_SCENARIO = gql`
     scenario(scenarioId: $scenarioId) {
       title
       teaser
-      bannerUrl
       fullStory
+      credits
+      bannerUrl
       maps {
-        id
         title
-        description
         pictureUrl
+        description
         pointsOfInterest {
-          id
           code
           title
           description
@@ -34,8 +33,8 @@ export default function ScenarioPage() {
     variables: { scenarioId: Number(router.query.id) },
   });
 
-  if (loading) return <p>Loading...</p>;
   if (error) return <p>Error</p>;
+  if (loading) return <p>Loading...</p>;
   if (!data) return <p>Not found</p>;
 
   return (

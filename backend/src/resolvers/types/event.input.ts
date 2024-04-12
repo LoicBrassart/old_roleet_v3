@@ -10,10 +10,10 @@ export class EventInput implements Partial<Event> {
   description?: string;
 
   @Field()
-  timestampStart!: number;
+  timestampStart!: Date;
 
   @Field({ nullable: true })
-  timestampEnd?: number;
+  timestampEnd?: Date;
 
   @Field()
   location!: string;

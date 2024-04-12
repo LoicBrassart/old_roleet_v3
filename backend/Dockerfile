@@ -6,6 +6,5 @@ COPY *.json ./
 RUN npm i
 COPY src/ src/
 RUN mkdir data
-RUN npm run db:reset
 
 CMD npm run dev

@@ -18,11 +18,11 @@ export class Event extends BaseEntity {
 
   @Field()
   @Column()
-  timestampStart!: number;
+  timestampStart!: Date;
 
   @Field({ nullable: true })
   @Column({ nullable: true })
-  timestampEnd?: number;
+  timestampEnd?: Date;
 
   @Field({ nullable: true })
   @Column()

@@ -5,8 +5,5 @@ WORKDIR /app
 COPY *.json ./
 COPY *.config.js ./
 COPY *.config.ts ./
-
 RUN npm i
 COPY src/ src/
-
-CMD npm run dev
