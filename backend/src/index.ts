@@ -44,5 +44,5 @@ app.get("/", (req, res) => {
 
 app.listen(port, async () => {
   await dataSource.initialize();
-  console.log(`project's backend listening on http://localhost:${port}`);
+  console.log(`Project's backend live and kicking !`);
 });
