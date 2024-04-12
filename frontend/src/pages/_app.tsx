@@ -1,10 +1,12 @@
 import "@/styles/globals.css";
+import * as dotenv from "dotenv";
 import type { AppProps } from "next/app";
 import dynamic from "next/dynamic";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+dotenv.config();
 
 const client = new ApolloClient({
-  uri: "http://localhost:5000/graphql",
+  uri: process.env.BACKEND_URL,
   cache: new InMemoryCache(),
 });
 
