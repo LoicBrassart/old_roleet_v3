@@ -1,21 +1,7 @@
 import Head from "next/head";
-// import { CharacterInput } from "../../../backend/src/resolvers/types";
-// import { CharacterCard } from "@/components/CharacterCard";
-// import { ScenarioCard } from "@/components/ScenarioCard";
 import Link from "next/link";
 
-// const GET_CHARACTERS = gql`
-//   query Characters {
-//     characters {
-//       name
-//       description
-//       avatarUrl
-//     }
-//   }
-// `;
-
 export default function Home() {
-  // const { loading, error, data } = useQuery(GET_CHARACTERS);
   return (
     <>
       <Head>
@@ -32,15 +18,6 @@ export default function Home() {
           <Link href="/scenarios/new">Création d&apos;un Scenario</Link>
         </li>
       </ul>
-
-      {/* <ul className="flex flex-wrap">
-        {data.characters.map(
-          ({ name, description, avatarUrl }: CharacterInput, i: number) => (
-            <CharacterCard key={i} {...{ name, description, avatarUrl }} />
-            )
-            )}
-          </ul> */}
-      {/* <ScenarioCard title="Camp Gobelin" /> */}
     </>
   );
 }

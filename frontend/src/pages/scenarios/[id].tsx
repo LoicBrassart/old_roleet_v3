@@ -18,6 +18,7 @@ const GET_SCENARIO = gql`
         pictureUrl
         description
         pointsOfInterest {
+          id
           code
           title
           description
