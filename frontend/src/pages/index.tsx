@@ -1,7 +1,23 @@
+import { gql, useQuery } from "@apollo/client";
 import Head from "next/head";
 import Link from "next/link";
 
+const GET_SCENARIOS = gql`
+  query Scenarios {
+    scenarios {
+      id
+      title
+    }
+  }
+`;
+
 export default function Home() {
+  const { loading, error, data } = useQuery(GET_SCENARIOS);
+
+  if (error) return <p>Error</p>;
+  if (loading) return <p>Loading...</p>;
+  if (!data) return <p>Not found</p>;
+
   return (
     <>
       <Head>
@@ -10,14 +26,20 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      <h2>Scenarios disponibles</h2>
       <ul>
-        <li>
-          <Link href="/scenarios/4">Détail d&apos;un Scenario</Link>
-        </li>
-        <li>
-          <Link href="/scenarios/new">Création d&apos;un Scenario</Link>
-        </li>
+        {data.scenarios.map((scenarioData) => (
+          <li key={scenarioData.id}>
+            <Link href={`/scenarios/${scenarioData.id}`}>
+              {scenarioData.title}
+            </Link>
+          </li>
+        ))}
       </ul>
+
+      <h2>Autres liens utiles</h2>
+      <Link href="/scenarios/new">Création d&apos;un Scenario</Link>
     </>
   );
 }

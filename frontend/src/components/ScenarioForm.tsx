@@ -20,10 +20,17 @@ import {
 } from "@/components/ui/tooltip";
 import { Textarea } from "@/components/ui/textarea";
 
+const poiSchema = z.object({
+  code: z.string().min(2).max(5),
+  title: z.string().min(2).max(50),
+  description: z.string().min(2).max(50),
+});
+
 const mapSchema = z.object({
   title: z.string().min(2).max(50),
   description: z.string().min(2).max(50),
   picture: z.string().min(2).max(50),
+  pois: z.array(poiSchema),
 });
 
 const scenarioSchema = z.object({
@@ -32,8 +39,6 @@ const scenarioSchema = z.object({
   fullStory: z.string().min(2).max(50),
   bannerUrl: z.string().min(2).max(50),
   credits: z.string().min(2).max(50),
-  isPublic: z.boolean(),
-  npcs: z.array(z.string()).optional(),
   maps: z.array(mapSchema),
 });
 
@@ -46,8 +51,6 @@ export default function ScenarioForm() {
       fullStory: "",
       bannerUrl: "",
       credits: "",
-      isPublic: true,
-      npcs: [],
       maps: [],
     },
   });
@@ -191,7 +194,7 @@ export default function ScenarioForm() {
                       </Tooltip>
                       <FormControl>
                         <Textarea
-                          placeholder="Des gobelins kidnappent des enfants pour en faire de la main d'oeuvre à vil coût."
+                          placeholder={`Des gobelins kidnappent des enfants pour en faire de la main d'oeuvre à vil coût.\n\t@ pour lister des PNJ\n\t# pour lister des lieux\n\t% pour lister des monstres`}
                           {...field}
                         />
                       </FormControl>
