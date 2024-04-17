@@ -20,6 +20,7 @@ import { useForm } from "react-hook-form";
 import { BsQuestionOctagonFill } from "react-icons/bs";
 import { z } from "zod";
 import MapForm from "./MapForm";
+import { gql, useMutation } from "@apollo/client";
 
 const pointOfInterestSchema = z.object({
   code: z.string().min(2).max(5),
@@ -72,14 +73,44 @@ const emptyScenario: Scenario = {
   title: "",
 };
 
+const POST_SCENARIO = gql`
+  mutation AddScenario($scenario: ScenarioInput!) {
+    addScenario(scenario: $scenario) {
+      id
+      title
+      teaser
+      fullStory
+      bannerUrl
+      credits
+      maps {
+        title
+        description
+        pictureUrl
+        pointsOfInterest {
+          code
+          title
+          description
+        }
+      }
+    }
+  }
+`;
+
 export default function ScenarioForm() {
   const form = useForm<z.infer<typeof scenarioSchema>>({
     resolver: zodResolver(scenarioSchema),
     defaultValues: emptyScenario,
   });
+  const [addScenario, { loading, error }] = useMutation(POST_SCENARIO);
 
-  const hSubmit = (values: z.infer<typeof scenarioSchema>) => {
+  const hSubmit = async (values: z.infer<typeof scenarioSchema>) => {
     console.log(values);
+
+    try {
+      const { data } = await addScenario({ variables: { scenario: values } });
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (

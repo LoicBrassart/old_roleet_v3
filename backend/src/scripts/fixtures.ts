@@ -1,42 +1,9 @@
-import { Character } from "../entities/Character";
 import { dataSource } from "../datasource";
 import { Event } from "../entities/Event";
 import { Scenario } from "../entities/Scenario";
 import { Map } from "../entities/Map";
 import { PointOfInterest } from "../entities/PointOfInterest";
 
-const charactersData = [
-  {
-    name: "Mario",
-    description: "Plumber from the Mushroom Kingdom.",
-    avatarUrl:
-      "https://i.pinimg.com/originals/7b/3b/f8/7b3bf86b732eba43fddf8b7eacc8a727.jpg",
-  },
-  {
-    name: "Luigi",
-    description: "Mario's brother and sidekick.",
-    avatarUrl:
-      "https://i.pinimg.com/originals/34/c6/35/34c635bf0599b3381e560013fe4614e3.jpg",
-  },
-  {
-    name: "Princess Peach",
-    description: "Ruler of the Mushroom Kingdom.",
-    avatarUrl:
-      "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/d5e34c18-c95a-4d77-8b31-5972d1ad8c22/d9k17fl-338466d2-04e5-40da-8669-68f93ad71871.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwic3ViIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsImF1ZCI6WyJ1cm46c2VydmljZTpmaWxlLmRvd25sb2FkIl0sIm9iaiI6W1t7InBhdGgiOiIvZi9kNWUzNGMxOC1jOTVhLTRkNzctOGIzMS01OTcyZDFhZDhjMjIvZDlrMTdmbC0zMzg0NjZkMi0wNGU1LTQwZGEtODY2OS02OGY5M2FkNzE4NzEucG5nIn1dXX0.Lni4xojmOm7A5MRj8Gc5gzE-O1Jt1BC7OTPpuxn-zdE",
-  },
-  {
-    name: "Bowser",
-    description: "Villainous king of the Koopas.",
-    avatarUrl:
-      "https://img0.etsystatic.com/113/0/13410978/il_fullxfull.1054615784_at3e.jpg",
-  },
-  {
-    name: "Yoshi",
-    description: "Friendly dinosaur companion.",
-    avatarUrl:
-      "https://2.bp.blogspot.com/-8EEC2QyYQOk/TmeonOdrSZI/AAAAAAAAA00/FcIWBaVWGNA/w1200-h630-p-k-no-nu/Yoshi.jpg",
-  },
-];
 const eventsData = [
   {
     title: "Campaign: The Lost Kingdom",
@@ -359,17 +326,6 @@ const poisData = [
 async function generateAndSaveFixtures() {
   try {
     await dataSource.initialize();
-
-    const savedCharacters = await Promise.all(
-      charactersData.map(async (characterData) => {
-        const character = new Character();
-        character.name = characterData.name;
-        character.description = characterData.description;
-        character.avatarUrl = characterData.avatarUrl;
-        return character.save();
-      })
-    );
-    console.log("Personnages enregistrés avec succès:", savedCharacters.length);
 
     const savedEvents = await Promise.all(
       eventsData.map(async (eventData) => {

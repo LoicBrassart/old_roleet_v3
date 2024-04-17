@@ -5,7 +5,6 @@ import { ApolloServer } from "@apollo/server";
 import { buildSchema } from "type-graphql";
 import { expressMiddleware } from "@apollo/server/express4";
 import { dataSource } from "./datasource";
-import { CharacterResolver } from "./resolvers/CharacterResolver";
 import { EventResolver } from "./resolvers/EventResolver";
 import { ScenarioResolver } from "./resolvers/ScenarioResolver";
 import { MapResolver } from "./resolvers/MapResolver";
@@ -20,7 +19,6 @@ const startApollo = async () => {
   }
   const schema = await buildSchema({
     resolvers: [
-      CharacterResolver,
       EventResolver,
       ScenarioResolver,
       MapResolver,

@@ -1,7 +1,6 @@
 import { Field, InputType } from "type-graphql";
 import { Scenario } from "../../entities/Scenario";
-import { Character } from "../../entities/Character";
-import { CharacterInput, MapInput } from ".";
+import { MapInput } from ".";
 import { Map } from "../../entities/Map";
 
 @InputType()
@@ -20,9 +19,6 @@ export class ScenarioInput implements Partial<Scenario> {
 
   @Field()
   credits!: string;
-
-  @Field((_type) => [CharacterInput])
-  npcs!: Character[];
 
   @Field((_type) => [MapInput])
   maps!: Map[];

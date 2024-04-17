@@ -5,10 +5,7 @@ import {
   PrimaryGeneratedColumn,
   BaseEntity,
   OneToMany,
-  ManyToMany,
-  JoinTable,
 } from "typeorm";
-import { Character } from "./Character";
 import { Map } from "./Map";
 
 @Entity()
@@ -37,14 +34,6 @@ export class Scenario extends BaseEntity {
   @Field()
   @Column()
   credits!: string;
-
-  @Field((_type) => [Character])
-  @JoinTable()
-  @ManyToMany((_type) => Character, (character) => character.scenarios, {
-    lazy: true,
-    cascade: ["insert"],
-  })
-  npcs!: Character[];
 
   @Field((_type) => [Map])
   @OneToMany((_type) => Map, (map) => map.scenario, {
