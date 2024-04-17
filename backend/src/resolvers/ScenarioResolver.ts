@@ -3,13 +3,19 @@ import { type Repository } from "typeorm";
 import { ScenarioInput } from "./types";
 import { dataSource } from "../datasource";
 import { Scenario } from "../entities/Scenario";
+import { PointOfInterest } from "../entities/PointOfInterest";
+import { Map } from "../entities/Map";
 
 @Resolver(Scenario)
 export class ScenarioResolver {
   private readonly scenarioRepository: Repository<Scenario>;
+  private readonly mapRepository: Repository<Map>;
+  private readonly poiRepository: Repository<PointOfInterest>;
 
   constructor() {
     this.scenarioRepository = dataSource.getRepository(Scenario);
+    this.mapRepository = dataSource.getRepository(Map);
+    this.poiRepository = dataSource.getRepository(PointOfInterest);
   }
 
   @Query((_returns) => Scenario, { nullable: true })
@@ -28,12 +34,41 @@ export class ScenarioResolver {
   }
 
   @Mutation((_returns) => Scenario)
-  addScenario(
+  async addScenario(
     @Arg("scenario") scenarioInput: ScenarioInput
   ): Promise<Scenario> {
     const scenario = this.scenarioRepository.create({
       ...scenarioInput,
     });
-    return this.scenarioRepository.save(scenario);
+    const savedScenario = await this.scenarioRepository.save(scenario);
+
+    const populatedMaps = await Promise.all(
+      scenarioInput.maps.map(async (mapInput) => {
+        const map = this.mapRepository.create({
+          ...mapInput,
+          scenario: savedScenario,
+        });
+
+        const savedMap = await this.mapRepository.save(map);
+
+        const populatedPOIs = await Promise.all(
+          mapInput.pointsOfInterest.map(async (poiInput) => {
+            const poi = this.poiRepository.create({
+              ...poiInput,
+              map: savedMap,
+            });
+
+            return this.poiRepository.save(poi);
+          })
+        );
+
+        savedMap.pointsOfInterest = populatedPOIs;
+        return savedMap;
+      })
+    );
+
+    savedScenario.maps = populatedMaps;
+
+    return savedScenario;
   }
 }
