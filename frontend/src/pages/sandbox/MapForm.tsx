@@ -12,23 +12,12 @@ import { Tooltip } from "@radix-ui/react-tooltip";
 import { useFieldArray } from "react-hook-form";
 import { BsQuestionOctagonFill } from "react-icons/bs";
 import PoIForm from "./POIForm";
+import { MapInput } from "@/generated/types";
 
-type PointOfInterest = {
-  code: string;
-  title: string;
-  description: string;
-};
-type Map = {
-  title: string;
-  description: string;
-  picture: string;
-  pointsOfInterest: PointOfInterest[];
-};
-
-const emptyMap: Map = {
+const emptyMap: MapInput = {
   title: "",
   description: "",
-  picture: "",
+  pictureUrl: "",
   pointsOfInterest: [],
 };
 
@@ -97,8 +86,8 @@ export default function MapForm({ control, name }: Props) {
           />
 
           <FormField
-            name={`maps.${index}.picture`}
-            key={`maps.${index}.picture`}
+            name={`maps.${index}.pictureUrl`}
+            key={`maps.${index}.pictureUrl`}
             control={control}
             render={({ field }) => (
               <FormItem>

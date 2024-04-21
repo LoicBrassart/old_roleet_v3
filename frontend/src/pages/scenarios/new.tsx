@@ -1,5 +1,5 @@
 "use client";
-import ScenarioForm from "@/components/ScenarioForm";
+import ScenarioForm from "@/pages/sandbox/ScenarioForm";
 import Head from "next/head";
 
 export default function ScenarioPage() {

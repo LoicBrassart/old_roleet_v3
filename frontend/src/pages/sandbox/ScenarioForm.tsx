@@ -21,50 +21,12 @@ import { BsQuestionOctagonFill } from "react-icons/bs";
 import { z } from "zod";
 import MapForm from "./MapForm";
 import { gql, useMutation } from "@apollo/client";
+import { ScenarioInputSchema } from "@/generated/zodValidators";
+import { ScenarioInput } from "@/generated/types";
+import { useAddScenarioMutation } from "@/generated/gqlQueries";
 
-const pointOfInterestSchema = z.object({
-  code: z.string().min(2).max(5),
-  title: z.string().min(2).max(50),
-  description: z.string().min(2).max(50),
-});
-const mapSchema = z.object({
-  title: z.string().min(2).max(50),
-  description: z.string().min(2).max(50),
-  picture: z.string().min(2).max(50),
-  pointsOfInterest: z.array(pointOfInterestSchema),
-});
-const scenarioSchema = z.object({
-  title: z.string().min(2).max(50),
-  teaser: z.string().min(2).max(50),
-  fullStory: z.string().min(2).max(50),
-  bannerUrl: z.string().min(2).max(50),
-  credits: z.string().min(2).max(50),
-  maps: z.array(mapSchema),
-});
-
-type PointOfInterest = {
-  code: string;
-  title: string;
-  description: string;
-};
-
-type Map = {
-  title: string;
-  description: string;
-  picture: string;
-  pointsOfInterest: PointOfInterest[];
-};
-
-type Scenario = {
-  title: string;
-  teaser: string;
-  fullStory: string;
-  bannerUrl: string;
-  credits: string;
-  maps: Map[];
-};
-
-const emptyScenario: Scenario = {
+const scenarioSchema = ScenarioInputSchema();
+const emptyScenario: ScenarioInput = {
   bannerUrl: "",
   credits: "",
   fullStory: "",
@@ -101,16 +63,18 @@ export default function ScenarioForm() {
     resolver: zodResolver(scenarioSchema),
     defaultValues: emptyScenario,
   });
-  const [addScenario, { loading, error }] = useMutation(POST_SCENARIO);
+  //const [addScenario, { loading, error }] = useMutation(POST_SCENARIO);
+  const [createScenario] = useAddScenarioMutation();
 
   const hSubmit = async (values: z.infer<typeof scenarioSchema>) => {
     console.log(values);
+    createScenario({ variables: { scenario: values } });
 
-    try {
-      const { data } = await addScenario({ variables: { scenario: values } });
-    } catch (err) {
-      console.error(err);
-    }
+    // try {
+    //   const { data } = await addScenario({ variables: { scenario: values } });
+    // } catch (err) {
+    //   console.error(err);
+    // }
   };
 
   return (
